@@ -7,6 +7,7 @@ import "./Roles.sol";
 contract ConsumerRole {
 
   // Define 2 events, one for Adding, and other for Removing
+  
 
   // Define a struct 'consumers' by inheriting from 'Roles' library, struct Role
 

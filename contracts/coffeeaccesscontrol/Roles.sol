@@ -4,7 +4,11 @@ pragma solidity ^0.4.24;
  * @title Roles
  * @dev Library for managing addresses assigned to a Role.
  */
+ // A solidity library doesnt have any storage and cannot hold ether, 
+ // its a piece of code that can be called from any contract without the
+ // need of deploy it again.
 library Roles {
+
   struct Role {
     mapping (address => bool) bearer;
   }
@@ -38,6 +42,7 @@ library Roles {
     view
     returns (bool)
   {
+    //not address zero means that this contract shouldnt be deployed once again
     require(account != address(0));
     return role.bearer[account];
   }
