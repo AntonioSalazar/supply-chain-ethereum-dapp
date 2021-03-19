@@ -153,14 +153,22 @@ contract SupplyChain {
   }
 
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
-  function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
+  function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation,
+   string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
     // Add the new item as part of Harvest
-    
+      Item storage newProduct = items[_upc];
+      newProduct.originFarmerID = _originFarmerID; //address
+      newProduct.originFarmName = _originFarmName; // string
+      newProduct.originFarmInformation = _originFarmInformation;
+      newProduct.originFarmLatitude = _originFarmLatitude;
+      newProduct.originFarmLongitude = _originFarmLongitude;
+      newProduct.productNotes = _productNotes;
+      newProduct.itemState = State.Harvested;  
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
-    
+    emit Harvested(_upc);
   }
 
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
