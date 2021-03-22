@@ -85,6 +85,7 @@ contract SupplyChain {
     _;
     uint _price = items[_upc].productPrice;
     uint amountToReturn = msg.value - _price;
+    items[_upc].consumerID = msg.sender;
     items[_upc].consumerID.transfer(amountToReturn);
   }
 
@@ -231,7 +232,7 @@ contract SupplyChain {
     boughtItem.distributorID = msg.sender;
     boughtItem.itemState = State.Sold;
     // Transfer money to farmer
-    items[_upc].originFarmerID.transfer(msg.value);
+    items[_upc].originFarmerID.transfer(items[_upc].productPrice);
     // emit the appropriate event
     emit Sold(_upc);
   }
