@@ -219,19 +219,21 @@ contract SupplyChain {
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc) public payable 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    forSale(_upc)
     // Call modifer to check if buyer has paid enough
-    
+    paidEnough(items[_upc].productPrice)
     // Call modifer to send any excess ether back to buyer
-    
+    checkValue(_upc)
     {
-    
+    Item storage boughtItem = items[_upc];
     // Update the appropriate fields - ownerID, distributorID, itemState
-    
+    boughtItem.ownerID = msg.sender;
+    boughtItem.distributorID = msg.sender;
+    boughtItem.itemState = State.Sold;
     // Transfer money to farmer
-    
+    items[_upc].originFarmerID.transfer(msg.value);
     // emit the appropriate event
-    
+    emit Sold(_upc);
   }
 
   // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
