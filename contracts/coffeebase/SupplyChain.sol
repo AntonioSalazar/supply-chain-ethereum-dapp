@@ -1,9 +1,12 @@
 pragma solidity ^0.4.24;
 
+import '../coffeeaccesscontrol/FarmerRole.sol';
+import '../coffeeaccesscontrol/DistributorRole.sol';
 import '../coffeeaccesscontrol/RetailerRole.sol';
 import '../coffeeaccesscontrol/ConsumerRole.sol';
+
 // Define a contract 'Supplychain'
-contract SupplyChain is RetailerRole, ConsumerRole {
+contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole {
 
   // Define 'owner'
   address owner;
@@ -159,14 +162,18 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation,
    string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
+   onlyFarmer
   {
     // Add the new item as part of Harvest
       Item storage newProduct = items[_upc];
+      newProduct.sku = sku;
+      newProduct.ownerID = msg.sender;
       newProduct.originFarmerID = _originFarmerID; //address
       newProduct.originFarmName = _originFarmName; // string
       newProduct.originFarmInformation = _originFarmInformation;
       newProduct.originFarmLatitude = _originFarmLatitude;
       newProduct.originFarmLongitude = _originFarmLongitude;
+      newProduct.productID = sku + _upc;
       newProduct.productNotes = _productNotes;
       newProduct.itemState = State.Harvested;  
     // Increment sku
@@ -178,6 +185,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
   function processItem(uint _upc) public 
   // Call modifier to check if upc has passed previous supply chain stage
+  onlyFarmer
   harvested(_upc)
   // Call modifier to verify caller of this function
   verifyCaller(msg.sender)
@@ -192,6 +200,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
   function packItem(uint _upc) public 
   // Call modifier to check if upc has passed previous supply chain stage
+  onlyFarmer
   processed(_upc)
   // Call modifier to verify caller of this function
   verifyCaller(msg.sender)
@@ -206,6 +215,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
   function sellItem(uint _upc, uint _price) public 
   // Call modifier to check if upc has passed previous supply chain stage
+  onlyFarmer
   packed(_upc)
   // Call modifier to verify caller of this function
   verifyCaller(msg.sender)
@@ -223,6 +233,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc) public payable 
     // Call modifier to check if upc has passed previous supply chain stage
+    onlyDistributor
     forSale(_upc)
     // Call modifer to check if buyer has paid enough
     paidEnough(items[_upc].productPrice)
@@ -261,7 +272,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
     // Call modifier to check if upc has passed previous supply chain stage
     shipped(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
-    onlyRetailer()
+    onlyRetailer
     {
     // Update the appropriate fields - ownerID, retailerID, itemState
     Item storage receivedItem = items[_upc];
@@ -278,7 +289,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
     // Call modifier to check if upc has passed previous supply chain stage
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
-    onlyConsumer()
+    onlyConsumer
     {
     // Update the appropriate fields - ownerID, consumerID, itemState
     Item storage purchasedItem = items[_upc];
@@ -345,7 +356,7 @@ contract SupplyChain is RetailerRole, ConsumerRole {
   productID = items[_upc].productID;
   productNotes = items[_upc].productNotes;
   productPrice = items[_upc].productPrice;
-  itemState = uint256(items[_upc].itemState);
+  itemState = uint(items[_upc].itemState);
   distributorID = items[_upc].distributorID;
   retailerID = items[_upc].retailerID;
   consumerID = items[_upc].consumerID;
