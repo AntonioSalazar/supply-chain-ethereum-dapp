@@ -234,7 +234,6 @@ contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole 
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc) public payable 
     // Call modifier to check if upc has passed previous supply chain stage
-    onlyDistributor
     forSale(_upc)
     // Call modifer to check if buyer has paid enough
     paidEnough(items[_upc].productPrice)
