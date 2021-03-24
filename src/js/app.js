@@ -1,3 +1,4 @@
+
 App = {
     web3Provider: null,
     contracts: {},
@@ -107,7 +108,7 @@ App = {
             var SupplyChainArtifact = data;
             App.contracts.SupplyChain = TruffleContract(SupplyChainArtifact);
             App.contracts.SupplyChain.setProvider(App.web3Provider);
-            
+            web3.eth.defaultAccount = web3.eth.accounts[0];
             App.fetchItemBufferOne();
             App.fetchItemBufferTwo();
             App.fetchEvents();
@@ -287,8 +288,8 @@ App = {
     },
 
     fetchItemBufferOne: function () {
-    ///   event.preventDefault();
-    ///    var processId = parseInt($(event.target).data('id'));
+      event.preventDefault();
+       var processId = parseInt($(event.target).data('id'));
         App.upc = $('#upc').val();
         console.log('upc',App.upc);
 
@@ -303,8 +304,8 @@ App = {
     },
 
     fetchItemBufferTwo: function () {
-    ///    event.preventDefault();
-    ///    var processId = parseInt($(event.target).data('id'));
+       event.preventDefault();
+       var processId = parseInt($(event.target).data('id'));
                         
         App.contracts.SupplyChain.deployed().then(function(instance) {
           return instance.fetchItemBufferTwo.call(App.upc);
