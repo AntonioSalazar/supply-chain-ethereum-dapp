@@ -11,6 +11,10 @@ Node v12.0.0
 Web3.js v1.2.9
 ```
 
+### IPFS Address (not working, running a local environment using npm run dev will work )
+
+- https://gateway.ipfs.io/ipfs/QmPzPjPXUz3N1YJ1dCuFqkD9nVCW1M1i77af2kDUYUraKo/
+
 ### Contract Address:
 
 - FarmerRole: 0xf8ed684cc7c460cd69bdfdb751b6c3ef50df2bbe
@@ -32,3 +36,5 @@ All of the tests have passed ✔️
 - The contracts have succesfully been deployed to Rinkeby network ✔️
 
 ![](images/migrate-rinkeby.png)
+
+<br /> Made by Antonio Salazar. 😘
