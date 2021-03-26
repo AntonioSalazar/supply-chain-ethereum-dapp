@@ -52,6 +52,7 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true;
         })
 
+        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
 
 
         // Mark an item as Harvested by calling function harvestItem()
