@@ -5,10 +5,10 @@ This repository containts an Ethereum DApp that demonstrates a Supply Chain flow
 ### Versions used for this project
 
 ```
-Truffle v5.2.4 (core: 5.2.4)
+Truffle v5.0.1 (core: 5.0.1)
 Solidity - 0.4.24 (solc-js)
-Node v12.0.0
-Web3.js v1.2.9
+Node v11.14.0
+Web3.js v1.2.1
 ```
 
 ### IPFS Address (not working, running a local environment using npm run dev will work )

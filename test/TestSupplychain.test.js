@@ -52,6 +52,8 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true;
         })
 
+
+
         // Mark an item as Harvested by calling function harvestItem()
         await supplyChain.harvestItem.sendTransaction(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, { from: originFarmerID})
 
