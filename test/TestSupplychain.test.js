@@ -48,9 +48,8 @@ contract('SupplyChain', function(accounts) {
         // Declare and Initialize a variable for event
         var eventEmitted = false;
         // Watch the emitted event Harvested()
-        var event = supplyChain.Harvested()
-        await event.watch((err, res) => {
-            eventEmitted = true
+        await supplyChain.contract.events.Harvested((err, ev) => {
+            eventEmitted = true;
         })
 
         // Mark an item as Harvested by calling function harvestItem()
@@ -81,8 +80,7 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false;
         
         // Watch the emitted event Processed()
-        var event = supplyChain.Processed();
-        await event.watch((err, res) => {
+        await supplyChain.contract.events.Processed((err, ev) => {
             eventEmitted = true;
         })
 
@@ -107,11 +105,9 @@ contract('SupplyChain', function(accounts) {
         // Declare and Initialize a variable for event
         var eventEmitted = false;
         // Watch the emitted event Packed()
-        var event = supplyChain.Packed();
-        await event.watch((err, res) => {
+        await supplyChain.contract.events.Packed((err, ev) => {
             eventEmitted = true;
         })
-
         // Mark an item as Packed by calling function packItem()
         await supplyChain.packItem.sendTransaction(upc, {from: originFarmerID})
 
@@ -134,8 +130,7 @@ contract('SupplyChain', function(accounts) {
         var eventEmmited = false; 
         
         // Watch the emitted event ForSale()
-        var event = await supplyChain.ForSale();
-        await event.watch((err, res) => {
+        await supplyChain.contract.events.ForSale((err, ev) => {
             eventEmmited = true;
         })
 
@@ -161,8 +156,7 @@ contract('SupplyChain', function(accounts) {
         let eventEmmited = false;
         
         // Watch the emitted event Sold()
-        var event =  supplyChain.Sold()
-        await event.watch((err, res) => {
+        await supplyChain.contract.events.Sold((err, ev) => {
             eventEmmited = true;
         })
 
@@ -191,12 +185,11 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
         
         // Declare and Initialize a variable for event
-        let eventEmitted = false;
+        let eventEmitted = false
         
         // Watch the emitted event Shipped()
-        let event =  supplyChain.Shipped();
-        await event.watch((err, res) => {
-            eventEmitted = true;
+        await supplyChain.contract.events.Shipped((res,err) => {
+            eventEmitted = true
         })
 
         // Mark an item as Sold by calling function buyItem()
@@ -219,12 +212,12 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
         await supplyChain.addRetailer(retailerID)
         // Declare and Initialize a variable for event
-        let eventEmitted = false;
+        // Declare and Initialize a variable for event
+        let eventEmitted = false
         
         // Watch the emitted event Received()
-        let event = supplyChain.Received();
-        await event.watch((err, res) => {
-            eventEmitted = true;
+        await supplyChain.contract.events.Received((res,err) => {
+            eventEmitted = true
         })
         // Mark an item as Sold by calling function buyItem()
         await supplyChain.receiveItem.sendTransaction(upc, { from: retailerID});
@@ -247,13 +240,11 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
         await supplyChain.addConsumer(consumerID)
         // Declare and Initialize a variable for event
-        let eventEmitted = false;
-
+        let eventEmitted = false
         
         // Watch the emitted event Purchased()
-        let event = supplyChain.Purchased();
-        await event.watch((err, res ) => {
-            eventEmitted = true;
+        await supplyChain.contract.events.Purchased((res,err) => {
+            eventEmitted = true
         })
 
         // Mark an item as Sold by calling function buyItem()
