@@ -98,7 +98,7 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferOne[0], sku, 'Error: Invalid item SKU');
         assert.equal(resultBufferOne[1], upc, 'Error: Invalid item UPC');
         assert.equal(resultBufferTwo[5], 1, 'Error: Invalid item State');
-        assert.equal(eventEmitted, true, 'Invalid event emitted');   
+        assert.equal(eventEmitted, true, 'Invalid event emitted!');   
     })    
 
     // // 3rd Test
